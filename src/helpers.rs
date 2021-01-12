@@ -15,11 +15,11 @@ use regex::Regex;
 pub(crate) use crate::wasm_instant::Instant;
 
 pub(crate) fn window() -> Window {
-    web_sys::window().unwrap()
+    web_sys::window().expect("Window is not available.")
 }
 
 pub(crate) fn document() -> Document {
-    window().document().unwrap()
+    window().document().expect("Document is not available.")
 }
 
 pub(crate) fn is_mobile_safari() -> bool {
@@ -73,7 +73,9 @@ where
     window()
         .set_timeout_with_callback_and_timeout_and_arguments_0(
             callback.unchecked_ref(),
-            dur.as_millis().try_into().unwrap(),
+            dur.as_millis()
+                .try_into()
+                .expect("You are asking to wait for too long."),
         )
         .unwrap();
 }

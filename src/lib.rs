@@ -17,7 +17,7 @@ mod manifest;
 pub mod traits;
 mod wasm_instant;
 
-use apps::{AppProps, SigninApp};
+use apps::{SigninApp, SigninAppProps, SigninSection};
 pub use error::{Error, Result};
 use manifest::Manifest;
 
@@ -38,12 +38,15 @@ pub async fn start_office() -> StdResult<(), JsValue> {
 
 #[wasm_bindgen(js_name = startSignin)]
 pub async fn start_signin() -> StdResult<(), JsValue> {
-    let props: AppProps = Manifest::fetch().await?.into();
-    App::<SigninApp>::new().mount_as_body_with_props(props);
+    let manifest: Manifest = Manifest::fetch().await?;
+    App::<SigninApp>::new().mount_as_body_with_props(manifest.into());
     Ok(())
 }
 
 #[wasm_bindgen(js_name = startSignup)]
 pub async fn start_signup() -> StdResult<(), JsValue> {
+    let mut props: SigninAppProps = Manifest::fetch().await?.into();
+    props.set_first_section(SigninSection::Signup);
+    App::<SigninApp>::new().mount_as_body_with_props(props.into());
     Ok(())
 }

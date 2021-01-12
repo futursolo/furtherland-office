@@ -7,7 +7,7 @@ use std::result::Result as StdResult;
 #[derive(Debug, ThisError)]
 pub enum Error {
     #[error("Unknown JavaScript Error")]
-    UnknownJs(JsValue),
+    Js(JsValue),
 
     #[error("Failed to communicate with remote.")]
     Networking(#[from] reqwest::Error),
@@ -21,14 +21,14 @@ pub enum Error {
 
 impl From<JsValue> for Error {
     fn from(e: JsValue) -> Error {
-        Error::UnknownJs(e)
+        Error::Js(e)
     }
 }
 
 impl From<Error> for JsValue {
     fn from(e: Error) -> JsValue {
         match e {
-            Error::UnknownJs(val) => val,
+            Error::Js(val) => val,
             Error::Networking(e) => e.to_string().into(),
             Error::Url(e) => e.to_string().into(),
             Error::InvalidManifest(e) => e.to_string().into(),

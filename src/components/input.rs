@@ -46,6 +46,7 @@ impl Deref for InputValue {
 pub enum InputType {
     Text,
     Password,
+    Email,
 }
 
 impl InputType {
@@ -53,6 +54,7 @@ impl InputType {
         match self {
             Self::Text => "text",
             Self::Password => "password",
+            Self::Email => "email",
         }
     }
 }

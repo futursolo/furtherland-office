@@ -15,4 +15,4 @@ impl From<Manifest> for AppProps {
     }
 }
 
-pub(crate) use signin::SigninApp;
+pub(crate) use signin::{SigninApp, SigninAppProps, SigninSection};
